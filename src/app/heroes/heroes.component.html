@@ -1,0 +1,44 @@
+<!-- <h2>{{ hero.name | uppercase}} Details</h2>
+<div>
+  <label for="name">Hero name: </label>
+  <input id="name" [(ngModel)]="hero.name" placeholder="name">
+</div>
+<div>
+  <span>id: </span>
+  {{ hero.id }}
+</div>
+<div>
+  <span>name: </span>
+  {{ hero.name }}
+</div> -->
+
+<h2>My Heroes</h2>
+<ul class="heroes">
+  <li *ngFor="let hero of heroes">
+    <a routerLink="/detail/{{hero.id}}">
+      <span class="badge">{{hero.id}}</span>
+      <span class="name">{{hero.name}}</span>
+
+    </a>
+    <!-- <button type="button" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
+      <span class="badge">{{ hero.id}}</span>
+      <span class="name">{{ hero.name}}</span>
+    </button> -->
+  </li>
+</ul>
+<!-- 下面是一个子组件 heroDetail-->
+<!-- 这里其实是在给[hero]赋值，在heroDetail类里只定义了hero变量，并没有初始化hero的值 -->
+<!-- <app-hero-detail [hero]="selectedHero"></app-hero-detail> -->
+
+
+<!-- 以下内容优化后移动到heroDetail.component.html -->
+<!-- <div *ngIf="selectedHero">
+  <h2>{{ selectedHero.name | uppercase}} Details</h2>
+  <div>id: {{ selectedHero.id }}</div>
+  <div>
+    <label for="hero-name">Hero name: </label>
+    <input type="text" id="hero-name" [(ngModel)]="selectedHero.name" placeholder="name">
+  </div>
+</div> -->
+
+<!-- <app-messages></app-messages> -->
