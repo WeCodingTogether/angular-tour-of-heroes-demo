@@ -122,4 +122,26 @@ export class HeroService {
                       catchError(this.handleError<Hero>('deleteHero'))
                     );
   }
+
+
+  /**
+   * Search Function
+   * @param term 搜索框输入的内容
+   * @param x 响应数据，这里是Hero[]
+   * @returns
+   */
+  searchHeroes(term: string): Observable<Hero[]> {
+    term = term.trim(); // 去除输入的空格
+    if(!term) {
+      return of([]);
+    }
+    const url = `${this.heroesUrl}/?name=${term}`;
+    return this.http.get<Hero[]>(url)
+                    .pipe(
+                      tap(x => x.length ? this.log(`found heroes matching "${term}"`)
+                                        : this.log(`no heroes matching "${term}"`)
+                          ),
+                      catchError(this.handleError<Hero[]>('searchHero', []))
+                    );
+  }
 }
