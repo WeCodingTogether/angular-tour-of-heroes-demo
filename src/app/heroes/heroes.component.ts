@@ -38,6 +38,17 @@ export class HeroesComponent implements OnInit {
   // Async data getting( for api invoking)
   getMyHeroes() {
     this.heroService.getHeroes().subscribe(heroes => this.heroes = heroes);
+  }
 
+  add(name: string): void {
+    name = name.trim(); // no space
+    if(!name) { return;} // if name is null, return
+    this.heroService.addHero({ name } as Hero)  // {name}将string类型的name转换为obj，as Hero是一个类型断言,TypeScript会将前面的obj视为Hero类型
+                    .subscribe(hero => this.heroes.push(hero));
+  }
+
+  delete(hero: Hero): void {
+    this.heroes = this.heroes.filter(h => h !== hero);
+    this.heroService.deleteHero(hero.id).subscribe();
   }
 }

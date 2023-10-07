@@ -13,6 +13,9 @@ export class HeroService {
 
   // 这里的heroes根据InMemoryDataService里返回的{heroes}对象匹配查找
   private heroesUrl = "api/heroes";
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'applicatio/json'})
+  };
 
   constructor(
     private messageService: MessageService,
@@ -59,7 +62,7 @@ export class HeroService {
             );
   }
 
-  
+
   // 包装message方法
   private log(message: string) {
     this.messageService.add(`HeroService: ${message}`);
@@ -67,7 +70,7 @@ export class HeroService {
 
 
   /**
-   *handle http opration that failed
+   * handle http opration that failed
    *
    * @param operation name of operation(method) that failed
    * @param result optional value to return as the observable result
@@ -80,4 +83,43 @@ export class HeroService {
     };
   }
 
+  /**
+   * 使用HTTP客户端库（例如Angular的HttpClient）来执行PUT请求，将数据发送到上一步构建的URL。
+   * 在这里，上一步构建的Url有具体的id： const url = `${this.heroesUrl}/${id}`;
+   * 根据 id 修改相应的内容
+   *
+   * tap操作没有改变响应的类型，http.put() 后不需要显式指定响应类型，httpClient会推断响应类型
+   *
+   * @param hero 需要修改的内容
+   */
+  updateHero(hero: Hero): Observable<any> {
+    return this.http.put(this.heroesUrl, hero, this.httpOptions)
+                    .pipe(
+                      tap(_ => this.log(`updated hero id=${hero.id}`)),
+                      catchError(this.handleError<any>('updateHero'))
+                    );
+  }
+
+
+  /**
+   * 这里因为 tap操作尝试改变响应的类型为newHero: Hero, 所以需要在post方法上显式指定响应类型 http.post<Hero>()
+   * @param hero 需要添加的内容
+   * @returns 包含单个新添加的hero的Observable<Hero>
+   */
+  addHero(hero: Hero): Observable<Hero> {
+    return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions)
+                    .pipe(
+                      tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)), // "w/" 是 "with" 的缩写
+                      catchError(this.handleError<Hero>('addHero'))
+                    );
+  }
+
+  deleteHero(id: number): Observable<Hero> {
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.delete<Hero>(url, this.httpOptions)
+                    .pipe(
+                      tap(_ => this.log(`delete hero id=${id}`)),
+                      catchError(this.handleError<Hero>('deleteHero'))
+                    );
+  }
 }

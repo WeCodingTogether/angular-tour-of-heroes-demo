@@ -18,8 +18,8 @@
     <a routerLink="/detail/{{hero.id}}">
       <span class="badge">{{hero.id}}</span>
       <span class="name">{{hero.name}}</span>
-
     </a>
+    <button type="button" class="delete" title="delete hero" (click)="delete(hero)">Delete</button>
     <!-- <button type="button" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
       <span class="badge">{{ hero.id}}</span>
       <span class="name">{{ hero.name}}</span>
@@ -42,3 +42,9 @@
 </div> -->
 
 <!-- <app-messages></app-messages> -->
+
+<div>
+  <label for="new-hero">Hero name: </label>
+  <input id="new-hero" #heroName type="text" />
+  <button type="button" class="add-button" (click)="add(heroName.value);heroName.value=''">Add Hero</button>
+</div>

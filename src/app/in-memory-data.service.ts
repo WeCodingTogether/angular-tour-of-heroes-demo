@@ -19,7 +19,8 @@ export class InMemoryDataService implements InMemoryDbService{
       { id: 17, name: 'Dynama' },
       { id: 18, name: 'Dr. IQ' },
       { id: 19, name: 'Magma' },
-      { id: 20, name: 'Tornado' }
+      { id: 20, name: 'Tornado' },
+      { id: 25, name: 'TestIdGeneration' }
     ]
     return { heroes };  // 这里需要返回一个Object，而不是一个数组array，所以需要加花括号{}
   }
